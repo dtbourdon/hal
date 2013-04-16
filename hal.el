@@ -7,6 +7,7 @@
 (defconst hal-transcript-name "*HAL-TRANSCRIPT*")
 (defvar hal-transcript-list "")
 (defconst hal-workbench-dir "/home/dbourdon/workbench")
+(defvar hal-current-selected-import "")
 
 (defun hal-find-file(search-term file-type)
   "Search for all files of type file-type that match the search-term and display in the HAL-OUTPUT buffer."
@@ -98,12 +99,12 @@
 
 (defun hal-find-props(search-term)
   "Search for all properties files that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-file search-term "*.properties"))
 
 (defun hal-find-java-imports(search-term)
   "Find the java file paths that match the search-term and convert them to import statements"
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (setq java-packages (hal-java-paths-to-packages (hal-find-java-paths search-term)))
   (setq command-results (loop for opackage in
 							  (loop for ipackage in java-packages
@@ -119,8 +120,18 @@
 (defun hal-convert-java-path-to-package(java-path)
   "Given a path to a java file, trim off the leading part of the path before /com and replace the /'s with .'s"
   (cond ((not (equal java-path "")) 
-		 (replace-regexp-in-string "/" "." (substring java-path (search "com" java-path))))))
+		 (hal-prepend-import-to-java-import-string
+		  (hal-trim-java-from-import-string
+		   (replace-regexp-in-string "/" "." (substring java-path (search "com" java-path))))))))
 		
+(defun hal-trim-java-from-import-string(java-path-string)
+  "Given a dot delimeted path to a java path, trim off the trailing .java part"
+  (replace-regexp-in-string ".java" "" java-path-string))
+
+(defun hal-prepend-import-to-java-import-string(java-import-string)
+  "Given a dot delimeted path to a java path, prepend the import"
+  (concat "import " java-import-string ";"))
+
 (defun hal-concat-string-list(the-list separator)
   "Iterate of the list and concatenate every element with the separator and the next element"
   (loop for item in the-list
@@ -153,5 +164,17 @@
   "Kill the current window."
   (interactive)
   (delete-window))
+
+(defun hal-copy-import()
+  "Copy the currently selected import line in the HAL-OUTPUT buffer"
+  (interactive)
+  (setq hal-current-selected-import (thing-at-point 'line))
+  (message (concat (replace-regexp-in-string "\n" "" hal-current-selected-import) " copied to import buffer."))
+  (kill-buffer-and-window))
+
+(defun hal-yank-import()
+  "Yank the currently selected import to the current line where point exists"
+  (interactive)
+  (insert hal-current-selected-import))
 
 (provide 'hal)
