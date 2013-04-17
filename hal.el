@@ -11,13 +11,13 @@
 
 (defun hal-find-file(search-term file-type)
   "Search for all files of type file-type that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "s")
+  (interactive "sEnter Search Term: ")
   (hal-display-command-results
    (hal-fetch-command-results (hal-build-find-file-command search-term file-type))))
 
 (defun hal-find-in-file(search-term file-type)
   "Find all files of where the search-term exists in the file for the given file-type."
-  (interactive "s")
+  (interactive "sEnter Search Term: ")
   (hal-display-command-results
    (hal-fetch-command-results (hal-build-find-in-file-command search-term file-type))))
 
@@ -65,12 +65,12 @@
   
 (defun hal-find-groovy(search-term)
   "Search for all Groovy files that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-file search-term "*.groovy"))
 
 (defun hal-find-java(search-term)
   "Search for all Java files that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-file search-term "*.java"))
 
 (defun hal-find-java-paths(search-term)
@@ -84,17 +84,17 @@
 
 (defun hal-find-in-java(search-term)
   "Find all occurances of search-term in all Java files and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-in-file search-term "*.java"))
 
 (defun hal-find-html(search-term)
   "Search for all HTML files that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-file search-term "*.html"))
 
 (defun hal-find-xml(search-term)
   "Search for all XML files that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term:")
+  (interactive "sEnter Search Term: ")
   (hal-find-file search-term "*.xml"))
 
 (defun hal-find-props(search-term)
@@ -140,7 +140,9 @@
 (defun hal-open()
   "Open the file currently selected in the HAL-OUTPUT buffer"
   (interactive)
-  (find-file-at-point)
+  (setq selected-file (replace-regexp-in-string "\n" "" (thing-at-point 'line)))
+  (message (concat "Opening file: " selected-file))
+  (find-file-literally selected-file)
   (kill-buffer hal-buffer-name)
   (delete-other-windows))
 
