@@ -140,9 +140,10 @@
 (defun hal-open()
   "Open the file currently selected in the HAL-OUTPUT buffer"
   (interactive)
-  (setq selected-file (replace-regexp-in-string "\n" "" (thing-at-point 'line)))
-  (message (concat "Opening file: " selected-file))
-  (find-file-literally selected-file)
+  ;;(setq selected-file (replace-regexp-in-string "\n" "" (thing-at-point 'line)))
+  ;;(message (concat "Opening file: " selected-file))
+  ;;(find-file-literally selected-file)
+  (find-file-at-point)
   (kill-buffer hal-buffer-name)
   (delete-other-windows))
 
