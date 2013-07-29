@@ -10,16 +10,28 @@
 (defvar hal-current-selected-import "")
 
 (defun hal-find-file(search-term file-type)
-  "Search for all files of type file-type that match the search-term and display in the HAL-OUTPUT buffer."
-  (interactive "sEnter Search Term: ")
+  "Search for all files of type file-type that match the search-term and display results in the HAL-OUTPUT buffer."
+  (interactive "sEnter Search Term: \nsEnter File Type: ")
   (hal-display-command-results
-   (hal-fetch-command-results (hal-build-find-file-command search-term file-type))))
+   (hal-fetch-command-results (hal-build-find-file-command search-term (concat "*." file-type)))))
 
 (defun hal-find-in-file(search-term file-type)
-  "Find all files of where the search-term exists in the file for the given file-type."
-  (interactive "sEnter Search Term: ")
+  "Find all files where the search-term exists in the file for the given file-type and display results in the HAL-OUTPUT buffer."
+  (interactive "sEnter Search Term: \nsEnter File Type: ")
   (hal-display-command-results
-   (hal-fetch-command-results (hal-build-find-in-file-command search-term file-type))))
+   (hal-fetch-command-results (hal-build-find-in-file-command search-term (concat "*." file-type)))))
+
+(defun hal-find-file-in-dir(directory search-term file-type)
+  "Find all files in a given directory for the given file-type that match the search-term and display results in the HAL-OUTPUT buffer."
+  (interactive "DEnter Directory: \nsEnter Search Term: \nsEnter File Type: ")
+  (hal-display-command-results
+   (hal-fetch-command-results (hal-build-find-file-in-dir-command directory search-term (concat "*." file-type)))))
+
+(defun hal-find-term-in-dir(directory search-term file-type)
+  "Find all files where the search-term exists in the file for the given directory and file-type and display results in the HAL-OUTPUT buffer."
+  (interactive "DEnter Directory: \nsEnter Search Term: \nsEnter File Type: ")
+  (hal-display-command-results
+   (hal-fetch-command-results (hal-build-find-term-in-dir-command directory search-term (concat "*." file-type)))))
 
 (defun hal-display-command-results(command-results)
   "Display the command results in the HAL-OUTPUT buffer. The command results are of a continuous string type."
@@ -60,18 +72,24 @@
 (defun hal-build-find-file-command(search-term file-type)
   (concat "find " hal-workbench-dir " -type f -name '" file-type "'" " | grep " search-term " | grep -v target"))
 
+(defun hal-build-find-file-in-dir-command(directory search-term file-type)
+  (concat "find " directory " -type f -name '" file-type "'" " | grep " search-term " | grep -v target"))
+
+(defun hal-build-find-term-in-dir-command(directory search-term file-type)
+  (concat "grep -lrw " search-term " --include " file-type " " directory " | grep -v target"))
+
 (defun hal-build-find-in-file-command(search-term file-type)
   (concat "grep -lrw " search-term " --include " file-type " " hal-workbench-dir " | grep -v target"))
   
 (defun hal-find-groovy(search-term)
   "Search for all Groovy files that match the search-term and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-file search-term "*.groovy"))
+  (hal-find-file search-term "groovy"))
 
 (defun hal-find-java(search-term)
   "Search for all Java files that match the search-term and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-file search-term "*.java"))
+  (hal-find-file search-term "java"))
 
 (defun hal-find-java-paths(search-term)
   "Return a list of all Java file paths that match the search-term."
@@ -90,17 +108,17 @@
 (defun hal-find-html(search-term)
   "Search for all HTML files that match the search-term and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-file search-term "*.html"))
+  (hal-find-file search-term "html"))
 
 (defun hal-find-xml(search-term)
   "Search for all XML files that match the search-term and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-file search-term "*.xml"))
+  (hal-find-file search-term "xml"))
 
 (defun hal-find-props(search-term)
   "Search for all properties files that match the search-term and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-file search-term "*.properties"))
+  (hal-find-file search-term "properties"))
 
 (defun hal-find-java-imports(search-term)
   "Find the java file paths that match the search-term and convert them to import statements"
