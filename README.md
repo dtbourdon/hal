@@ -1,4 +1,4 @@
 hal
 ===
 
-An Emacs Lisp library to aid in Java development.
+An Emacs Lisp library to aid in JEE development.
