@@ -7,23 +7,20 @@
 ;;; Example: (defconst hal-workbench-dir "/home/tstark/workspace")
 ;;;
 ;;; This library was born out of a need to do JEE development work in many, many projects in a terminal over an ssh session.
-;;; Also, I wanted to become more familiar with elisp programming.
-;;;
 ;;; Most JEE IDEs such as Eclipse, Netbeans, IntelliJ etc. support the workspace development model where the developer 
 ;;; checks out projects from version control into a workspace directory such as /home/user/workspace. In JEE development
-;;; it is not uncommon to work in many projects at once. I generally have 10-15 projects I concurrently support.
+;;; it is not uncommon to work in many projects at once.
 ;;;
 ;;; While terminal editors like Vim and Emacs are very powerful they fail to provide the project navigation features
 ;;; the standard JEE IDEs provide out of the box. 
 ;;;
-;;; This library provides a set of functions to make project navigation easier in Emacs. I make no bold claims of
-;;; superior usability of this library. It's a work in progress and something I wrote to scratch my own itch and
-;;; support my own workflow. However, as much as I've benefited from the open source community over the years,
-;;; I felt the need to make it available.
+;;; This library provides a set of functions to make project navigation easier in Emacs. There are no bold claims of
+;;; superior usability of this library. It's a work in progress; suggestions and updates are welcome.
 ;;;
-;;; At it's core, the HAL library provides a set of covenience wrapper functions around find and grep. The functions
+;;; At it's core, the HAL library provides a set of covenience wrapper functions around the find and grep commands. The functions
 ;;; allow a developer to quickly search their entire "workspace" for references to classes/types and easily navigate to them.
 ;;; The use of the find and grep utilities is a hack of sorts as the JVM is not used at all to find type references.
+;;;
 ;;; In the future I hope to write functions which will not only interogate the developer's workspace but also the
 ;;; developer's .m2 local Maven repository.
 
@@ -183,9 +180,6 @@
 (defun hal-open()
   "Open the file currently selected in the HAL-OUTPUT buffer"
   (interactive)
-  ;;(setq selected-file (replace-regexp-in-string "\n" "" (thing-at-point 'line)))
-  ;;(message (concat "Opening file: " selected-file))
-  ;;(find-file-literally selected-file)
   (find-file-at-point)
   (kill-buffer hal-buffer-name)
   (delete-other-windows))
