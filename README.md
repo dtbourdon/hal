@@ -50,11 +50,12 @@ Command                                       | Description
 
 # Known issues
 
+[Issues](https://github.com/dtbourdon/hal/issues)
 
 # Bugs & Improvements
 
 Bug reports and suggestions for improvements are always
 welcome. GitHub pull requests are even better! :-)
 
-Cheers,<br/>
-[dtbourdon](http://twitter.com/tbourdon)
+Enjoy,<br/>
+[@tbourdon](http://twitter.com/tbourdon)
