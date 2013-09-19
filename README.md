@@ -8,7 +8,7 @@ in the case of the HAL-TRANSCRIPT buffer it would be running a previous command.
 
 # Installation
 
-Please, note that the current version of `hal.el` requires find and grep
+Please, note that the current version of `hal.el` requires find and grep the cl lib.
 
 ## Manual
 

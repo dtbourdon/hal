@@ -84,12 +84,12 @@
 (defun hal-find-in-java(search-term)
   "Find all occurances of search-term in all Java files and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-in-file search-term "*.java"))
+  (hal-find-in-file search-term "java"))
 
 (defun hal-find-in-groovy(search-term)
   "Find all occurances of search-term in all Groovy files and display in the HAL-OUTPUT buffer."
   (interactive "sEnter Search Term: ")
-  (hal-find-in-file search-term "*.groovy"))
+  (hal-find-in-file search-term "groovy"))
 
 (defun hal-find-java-type()
   "Search for all Java files that match the word under point and display in the HAL-OUTPUT buffer."
